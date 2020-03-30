@@ -15,11 +15,21 @@ help:
 	@echo
 	@echo 'Usage:'
 	@echo '    make build           Compile the project.'
+	@echo '    make build-art       Build atomic red team static fs.'
 	@echo '    make get-deps        runs dep ensure, mostly used for ci.'
 	
 	@echo '    make clean           Clean the directory tree.'
 	@echo
 
+clean:
+	rm -rf art/
+	rm -rf statik/
+	@test ! -e bin/${BIN_NAME} || rm bin/${BIN_NAME}
+
+build-art:
+	@echo "building Atomic Red Team Static FS"
+	git clone https://github.com/redcanaryco/atomic-red-team.git art
+	~/go/bin/statik -include=*.yaml -src=art/atomics
 build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
@@ -28,8 +38,7 @@ build:
 get-deps:
 	dep ensure
 
-clean:
-	@test ! -e bin/${BIN_NAME} || rm bin/${BIN_NAME}
+
 
 test:
 	go test ./...
