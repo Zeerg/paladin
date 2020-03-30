@@ -1,6 +1,7 @@
-# paladin
+<p align="center"> 
+  <img src="images/logo.png" width="350" title="paladin" align="center">
+</p>
 
-paladin
 
 ## Getting started
 
