@@ -14,6 +14,16 @@ $ make
 $ ./bin/paladin
 ```
 
-### Testing
+### Local Development
 
-``make test``
+Building locally requires statik 
+
+```console
+go get github.com/rakyll/statik
+```
+
+Once done simply run 
+
+```console
+make
+```

@@ -8,7 +8,7 @@ GIT_DIRTY=$(shell test -n "`git status --porcelain`" && echo "+CHANGES" || true)
 BUILD_DATE=$(shell date '+%Y-%m-%d-%H:%M:%S')
 IMAGE_NAME := "paladin/paladin"
 
-default: test
+default: clean build-art build
 
 help:
 	@echo 'Management commands for paladin:'
@@ -37,8 +37,6 @@ build:
 
 get-deps:
 	dep ensure
-
-
 
 test:
 	go test ./...
