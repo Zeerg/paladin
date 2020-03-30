@@ -4,14 +4,22 @@ import (
 	"fmt"
 	"log"
 	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
+
 	"github.com/spf13/cobra"
 	"github.com/rakyll/statik/fs"
 	"github.com/manifoldco/promptui"
 
+	//Blank import for statik filesystem
 	_ "github.com/Zeerg/paladin/statik"
+
 )
 var (
+
 	atomic string
+	displayName string
+	config map[string]interface{}
 )
 
 func yesNo() bool {
@@ -50,11 +58,23 @@ var artCmd = &cobra.Command{
 			log.Fatal("Failed to Read Atomic")
 		}
 
-		fmt.Println(string(contents))
-		fmt.Println("Would You Like to Run This Attack?")
+    	err = yaml.Unmarshal(contents, &config)
+    	if err != nil {
+        	log.Fatal("Failed to unmarshal YAML")
+		}
+		
+		displayName = config["display_name"].(string)
+		atomicTests := config["atomic_tests"].([]interface{})
+
+		fmt.Println("Would You Like to Run This Attack Technique " + atomic + " " + displayName)
+
 		attack := yesNo()
 		if attack {
 			log.Printf("Attacking")
+			for _, v := range atomicTests {
+				fmt.Printf("%s\n", v)
+			}
+
 
 		} else {
 			log.Printf("Not Running Attack")
