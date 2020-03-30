@@ -9,6 +9,9 @@ import (
 
 	_ "github.com/Zeerg/paladin/statik"
 )
+var (
+	atomic string
+)
 
 // artCmd represents the art command
 var artCmd = &cobra.Command{
@@ -16,21 +19,22 @@ var artCmd = &cobra.Command{
 	Short: "Run Atomic Red Team Attacks",
 	Long: `Run attomic red team attacks to test security alerting`,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Printf("Running atomic attack")
+		log.Printf("Running atomic attack " + atomic)
 		statikFS, err := fs.New()
 		if err != nil {
 			log.Fatal(err)
 		}
-		
-		// Access individual files by their paths.
-		r, err := statikFS.Open("/T1003/T1003.yaml")
+
+		atomicDir := "/" + atomic + "/" + atomic + ".yaml"
+		log.Printf("Opening " + atomicDir)
+		r, err := statikFS.Open(atomicDir)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("Atomic Not Found")
 		}    
 		defer r.Close()
 		contents, err := ioutil.ReadAll(r)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("Failed to Read Atomic")
 		}
 
 		fmt.Println(string(contents))
@@ -40,5 +44,5 @@ var artCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(artCmd)
 
-	artCmd.Flags().StringP("atomic", "a", "YOUR TEST", "Specify the atomic to run")
+	artCmd.Flags().StringVarP(&atomic, "atomic", "a", "", "Atomic test to run")
 }
