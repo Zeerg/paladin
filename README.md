@@ -19,11 +19,11 @@ $ ./bin/paladin
 Building locally requires statik 
 
 ```console
-go get github.com/rakyll/statik
+$ go get github.com/rakyll/statik
 ```
 
 Once done simply run 
 
 ```console
-make
+$ make
 ```
