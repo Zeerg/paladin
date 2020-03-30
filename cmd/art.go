@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"github.com/spf13/cobra"
 	"github.com/rakyll/statik/fs"
+	"github.com/manifoldco/promptui"
 
 	_ "github.com/Zeerg/paladin/statik"
 )
@@ -13,6 +14,18 @@ var (
 	atomic string
 )
 
+func yesNo() bool {
+    prompt := promptui.Select{
+        Label: "Select[Yes/No]",
+        Items: []string{"Yes", "No"},
+    }
+    _, result, err := prompt.Run()
+    if err != nil {
+        log.Fatalf("Prompt failed %v\n", err)
+    }
+    return result == "Yes"
+
+}
 // artCmd represents the art command
 var artCmd = &cobra.Command{
 	Use:   "art",
@@ -38,6 +51,14 @@ var artCmd = &cobra.Command{
 		}
 
 		fmt.Println(string(contents))
+		fmt.Println("Would You Like to Run This Attack?")
+		attack := yesNo()
+		if attack {
+			log.Printf("Attacking")
+
+		} else {
+			log.Printf("Not Running Attack")
+		}
 	},
 }
 

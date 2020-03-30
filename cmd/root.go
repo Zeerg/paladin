@@ -16,6 +16,7 @@ var rootCmd = &cobra.Command{
 	Long: `
 
 	Paladin
+	https://github.com/Zeerg/paladin
 
            ▒▒            
         ▓▓▒▒▓▓░░        
@@ -32,7 +33,8 @@ var rootCmd = &cobra.Command{
         ▒▒▒▒██▓▓▓▓        
   
 			
-Run attacks against your systems using the att&ck framework.`,
+Run attacks against your systems using atomic red
+team from Red Canary and other tools.`,
 }
 
 func Execute() {
