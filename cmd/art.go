@@ -38,8 +38,13 @@ func yesNo() bool {
 var artCmd = &cobra.Command{
 	Use:   "art",
 	Short: "Run Atomic Red Team Attacks",
-	Long: `Run attomic red team attacks to test security alerting`,
+	Long: `Run Atomic red team attacks to test security alerting`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		if atomic == "" {
+			log.Fatal("Please Specify Atomic Attach Technique")
+		}
+
 		log.Printf("Running atomic attack " + atomic)
 		statikFS, err := fs.New()
 		if err != nil {
@@ -85,5 +90,5 @@ var artCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(artCmd)
 
-	artCmd.Flags().StringVarP(&atomic, "atomic", "a", "", "Atomic test to run")
+	artCmd.Flags().StringVarP(&atomic, "atomic", "a", "", "Atomic technique to run..ie T1003")
 }
