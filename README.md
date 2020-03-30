@@ -3,9 +3,9 @@
 </p>
 
 
-### Getting started
+## Getting started
 
-### Local Development
+## Local Development
 
 This project requires Go to be installed. On OS X with Homebrew you can just run `brew install go`.
 
