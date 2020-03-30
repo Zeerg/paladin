@@ -37,7 +37,9 @@ Run attacks against your systems using atomic red
 team from Red Canary and other tools.`,
 }
 
+// Execute runs when no command is specified.
 func Execute() {
+	
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
