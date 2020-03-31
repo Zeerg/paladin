@@ -1,14 +1,18 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"io/ioutil"
+	"os"
+	"os/exec"
 
 	"gopkg.in/yaml.v2"
 
 	"github.com/spf13/cobra"
 	"github.com/rakyll/statik/fs"
 	"github.com/manifoldco/promptui"
+	"github.com/fatih/color"
 
 	//Blank import for statik filesystem
 	_ "github.com/Zeerg/paladin/statik"
@@ -73,14 +77,23 @@ var artCmd = &cobra.Command{
 		
 		for _, v := range atomicTests {
 			command := v.(interface{}).(map[interface {}]interface{})["executor"].(map[interface {}]interface{})["command"]
+			name := v.(interface{}).(map[interface {}]interface{})["name"]
 			log.Println("Would You Like to Run This Attack?")
-			log.Println(command)
-
+			color.Green(name.(string))
+			fmt.Println(command)
 			attack := yesNo()
 			if attack {
-				log.Printf("Attacking\n")
+				log.Printf("Running")
+				cmd := exec.Command(command.(string))
+				cmd.Stdin = os.Stdin
+				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
+				err := cmd.Run()
+				if err != nil {
+    				log.Println(err)
+				}
 			} else {
-				log.Printf("Not Attacking")
+				log.Printf("Not Running")
 			}
 		}
 	},

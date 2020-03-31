@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/coreos/go-etcd v2.0.0+incompatible // indirect
+	github.com/fatih/color v1.9.0
 	github.com/manifoldco/promptui v0.7.0
 	github.com/rakyll/statik v0.1.7
 	github.com/sirupsen/logrus v1.4.1
