@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"io/ioutil"
 
@@ -15,6 +14,7 @@ import (
 	_ "github.com/Zeerg/paladin/statik"
 
 )
+
 var (
 
 	atomic string
@@ -70,19 +70,18 @@ var artCmd = &cobra.Command{
 		
 		displayName = config["display_name"].(string)
 		atomicTests := config["atomic_tests"].([]interface{})
+		
+		for _, v := range atomicTests {
+			command := v.(interface{}).(map[interface {}]interface{})["executor"].(map[interface {}]interface{})["command"]
+			log.Println("Would You Like to Run This Attack?")
+			log.Println(command)
 
-		fmt.Println("Would You Like to Run This Attack Technique " + atomic + " " + displayName)
-
-		attack := yesNo()
-		if attack {
-			log.Printf("Attacking")
-			for _, v := range atomicTests {
-				fmt.Printf("%s\n", v)
+			attack := yesNo()
+			if attack {
+				log.Printf("Attacking\n")
+			} else {
+				log.Printf("Not Attacking")
 			}
-
-
-		} else {
-			log.Printf("Not Running Attack")
 		}
 	},
 }
