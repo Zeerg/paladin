@@ -42,7 +42,8 @@ func yesNo() bool {
 var artCmd = &cobra.Command{
 	Use:   "art",
 	Short: "Run Atomic Red Team Attacks",
-	Long: `Run Atomic red team attacks to test security alerting`,
+	Long: `Run Atomic red team attacks to test security alerting
+tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/index.md`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if atomic == "" {

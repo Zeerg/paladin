@@ -16,7 +16,7 @@ var rootCmd = &cobra.Command{
 	Long: `
 
 	Paladin
-	https://github.com/Zeerg/paladin
+https://github.com/Zeerg/paladin
 
            ▒▒            
         ▓▓▒▒▓▓░░        
