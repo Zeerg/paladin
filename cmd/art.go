@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 
@@ -77,21 +78,23 @@ tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/mast
 		atomicTests := config["atomic_tests"].([]interface{})
 		
 		for _, v := range atomicTests {
-			command := v.(interface{}).(map[interface {}]interface{})["executor"].(map[interface {}]interface{})["command"]
+			command := v.(interface{}).(map[interface {}]interface{})["executor"].(map[interface {}]interface{})["command"].(string)
 			name := v.(interface{}).(map[interface {}]interface{})["name"]
 			log.Println("Would You Like to Run This Attack?")
 			color.Green(name.(string))
 			fmt.Println(command)
 			attack := yesNo()
 			if attack {
-				log.Printf("Running")
-				cmd := exec.Command(command.(string))
-				cmd.Stdin = os.Stdin
-				cmd.Stdout = os.Stdout
-				cmd.Stderr = os.Stderr
-				err := cmd.Run()
-				if err != nil {
-    				log.Println(err)
+				commands := strings.Split(command, "\n")
+				for _, attackString := range commands {
+					cmd := exec.Command(attackString)
+					cmd.Stdin = os.Stdin
+					cmd.Stdout = os.Stdout
+					cmd.Stderr = os.Stderr
+					err := cmd.Run()
+					if err != nil {
+						log.Println(err)
+					}
 				}
 			} else {
 				log.Printf("Not Running")
