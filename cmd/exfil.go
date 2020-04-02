@@ -5,7 +5,11 @@ import (
 
 	"github.com/spf13/cobra"
 )
+var (
 
+	dhost string
+	exfilFileName string
+)
 // exfilCmd represents the exfil command
 var exfilCmd = &cobra.Command{
 	Use:   "exfil",
@@ -46,11 +50,17 @@ var exfilPing = &cobra.Command{
 }
 
 func init() {
-
+	//Root Command
 	rootCmd.AddCommand(exfilCmd)
+
+	//Sub Commands
 	exfilCmd.AddCommand(exfilDNS)
 	exfilCmd.AddCommand(exfilPing)
 	exfilDNS.AddCommand(exfilDNSClient)
 	exfilDNS.AddCommand(exfilDNSServer)
+
+	//Ping Exfil Flags
+	exfilPing.Flags().StringVarP(&dhost, "destination", "d", "", "The Destination Host of the Ping")
+	exfilPing.Flags().StringVarP(&exfilFileName, "file", "f", "", "The name of the file to send over ping")
 
 }
