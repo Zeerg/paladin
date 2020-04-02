@@ -1,6 +1,7 @@
 package cmd
 import (
 	"fmt"
+	"os"
 )
 
 // a Function that gets a host name/ip and filename and splits it then sends it over ping
@@ -8,6 +9,8 @@ import (
 // Gopacket has ping
 func pingExfil(destination string, fileName string) {
 	fmt.Printf("Going to ping")
+	f, err := os.Open("/tmp/dat")
+    check(err)
 	fmt.Println(destination)
 	fmt.Println(fileName)
 }

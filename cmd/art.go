@@ -60,19 +60,12 @@ tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/mast
 		atomicDir := "/" + atomic + "/" + atomic + ".yaml"
 		log.Printf("Opening " + atomicDir)
 		r, err := statikFS.Open(atomicDir)
-		if err != nil {
-			log.Fatal("Atomic Not Found")
-		}    
+		check(err)
 		defer r.Close()
 		contents, err := ioutil.ReadAll(r)
-		if err != nil {
-			log.Fatal("Failed to Read Atomic")
-		}
-
+		check(err)
     	err = yaml.Unmarshal(contents, &config)
-    	if err != nil {
-        	log.Fatal("Failed to unmarshal YAML")
-		}
+    	check(err)
 		
 		displayName = config["display_name"].(string)
 		atomicTests := config["atomic_tests"].([]interface{})
@@ -92,9 +85,7 @@ tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/mast
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
 					err := cmd.Run()
-					if err != nil {
-						log.Println(err)
-					}
+					check(err)
 				}
 			} else {
 				log.Printf("Not Running")
