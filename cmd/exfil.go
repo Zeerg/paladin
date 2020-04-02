@@ -45,7 +45,16 @@ var exfilPing = &cobra.Command{
 	Short: "Run ping exfil like tests on current host",
 	Long: `Run ping exfil like tests on current host`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("ping exfil called")
+		pingExfil(dhost, exfilFileName)
+	},
+}
+
+var exfilPingReceive = &cobra.Command{
+	Use:   "receive",
+	Short: "Packet capture ping requests and reassemble files",
+	Long: `Packet capture ping requests and reassemble file`,
+	Run: func(cmd *cobra.Command, args []string) {
+		pingExfil(dhost, exfilFileName)
 	},
 }
 
@@ -56,6 +65,7 @@ func init() {
 	//Sub Commands
 	exfilCmd.AddCommand(exfilDNS)
 	exfilCmd.AddCommand(exfilPing)
+	exfilPing.AddCommand(exfilPingReceive)
 	exfilDNS.AddCommand(exfilDNSClient)
 	exfilDNS.AddCommand(exfilDNSServer)
 
