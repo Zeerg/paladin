@@ -11,17 +11,11 @@ var exfilCmd = &cobra.Command{
 	Use:   "exfil",
 	Short: "Run exfil like tests on current host",
 	Long: `Run exfil like tests on current host`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("exfil called")
-	},
 }
 var exfilDNS = &cobra.Command{
 	Use:   "dns",
 	Short: "Run dns exfil like tests on current host",
 	Long: `Run dns exfil like tests on current host`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dns exfil called")
-	},
 }
 
 var exfilDNSClient = &cobra.Command{
