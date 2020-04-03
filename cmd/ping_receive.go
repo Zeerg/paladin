@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"time"
+	"encoding/hex"
 
     "github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
@@ -13,13 +14,13 @@ var (
     captureTime int32 = 1024
     promiscuous  bool   = false
     err          error
-    timeout      time.Duration = 30 * time.Second
+    timeout      time.Duration = 1 * time.Second
 	handle       *pcap.Handle
 	filter 		 string = "icmp"
 )
 
-// pingReassemble
-func pingReassemble(captureDevice string, captureTime int32) {
+// pingReassemble takes the payload and reassembles it. 
+func pingReassemble(outFile, captureDevice string, captureTime int32) {
 
     // Open device
     handle, err = pcap.OpenLive(captureDevice, captureTime, promiscuous, timeout)
@@ -27,13 +28,14 @@ func pingReassemble(captureDevice string, captureTime int32) {
 	defer handle.Close()
 	
     // Set filter
-    
     err = handle.SetBPFFilter(filter)
     check(err)
     packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
     for packet := range packetSource.Packets() {
-        // Do something with a packet here.
-        fmt.Println(packet)
+		appLayer := packet.ApplicationLayer();
+		payload, err := hex.DecodeString(string(appLayer.Payload()))
+		check(err)
+        fmt.Println(string(payload))
     }
 
 }

@@ -12,6 +12,7 @@ var (
 	exfilFileName string
 	device string
 	runTime int32
+	outFile string
 )
 // exfilCmd represents the exfil command
 var exfilCmd = &cobra.Command{
@@ -57,7 +58,7 @@ var exfilPingReceive = &cobra.Command{
 	Short: "Packet capture ping requests and reassemble files",
 	Long: `Packet capture ping requests and reassemble file`,
 	Run: func(cmd *cobra.Command, args []string) {
-		pingReassemble(device, runTime)
+		pingReassemble(outFile, device, runTime)
 	},
 }
 
@@ -79,5 +80,6 @@ func init() {
 	//Ping Reassemble flags
 	exfilPingReceive.Flags().StringVarP(&device, "device", "i", "", "The Device to listen on")
 	exfilPingReceive.Flags().Int32VarP(&runTime, "runTime", "r", 1024, "How long to run the ping listener")
+	exfilPingReceive.Flags().StringVarP(&outFile, "outfile", "o", "out.text", "The destination filename")
 
 }
