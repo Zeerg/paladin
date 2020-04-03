@@ -1,9 +1,24 @@
 <p align="center"> 
-  <img src="images/logo.png" width="350" title="paladin" align="center">
+  <img src="images/logo.png" width="250" title="paladin" align="center">
+  <p align="center">A blueteam tool to simulate attacks using Atomic Red Team and other techniques.</p>
 </p>
 
+---
 
 ## Getting started
+
+### Ping Exfil
+
+The ping exfil subcommand is working and implements a basic ping exfil attack scenario.
+
+### Atomic Red Team
+
+
+### DNS Exfil
+WIP
+
+### Infection Gopher
+WIP
 
 ## Local Development
 
