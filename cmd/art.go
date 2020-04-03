@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -10,6 +9,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
+	"github.com/Zeerg/paladin/log"
 	"github.com/spf13/cobra"
 	"github.com/rakyll/statik/fs"
 	"github.com/manifoldco/promptui"
@@ -53,9 +53,7 @@ tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/mast
 
 		log.Printf("Running atomic attack " + atomic)
 		statikFS, err := fs.New()
-		if err != nil {
-			log.Fatal(err)
-		}
+		check(err)
 
 		atomicDir := "/" + atomic + "/" + atomic + ".yaml"
 		log.Printf("Opening " + atomicDir)
