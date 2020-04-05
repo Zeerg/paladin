@@ -23,6 +23,7 @@ help:
 clean:
 	rm -rf art/
 	rm -rf statik/
+	rm -rf dist/
 	@test ! -e bin/${BIN_NAME} || rm bin/${BIN_NAME}
 
 build-art:
@@ -36,6 +37,9 @@ build:
 
 get-deps:
 	dep ensure
+
+test-release:
+	~/go/bin/goreleaser --snapshot --skip-publish --rm-dist
 
 test:
 	go test ./...
