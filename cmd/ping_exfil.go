@@ -32,7 +32,7 @@ func executePing(targetIP string, fileBytes []byte) {
     }
 }
 
-// hexEncode takes a file and dumps it to bytes. It's no meant for large files
+// hexEncode takes a file and dumps it to bytes. It's not meant for large files
 func hexEncode(fileName string) []byte {
 
 	dat, err := ioutil.ReadFile(fileName)
