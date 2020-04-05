@@ -74,6 +74,9 @@ tests can be found here https://github.com/redcanaryco/atomic-red-team/blob/mast
 			log.Println("Would You Like to Run This Attack?")
 			color.Green(name.(string))
 			fmt.Println(command)
+			if strings.Contains(command, "#{") {
+				fmt.Println("Command needs a var")
+			}
 			attack := yesNo()
 			if attack {
 				commands := strings.Split(command, "\n")

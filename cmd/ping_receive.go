@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 	"time"
-	"encoding/hex"
+    "encoding/hex"
+    "os"
 
     "github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
@@ -36,6 +37,12 @@ func pingReassemble(outFile, captureDevice string, captureTime int32) {
 		payload, err := hex.DecodeString(string(appLayer.Payload()))
 		check(err)
         fmt.Println(string(payload))
+        f, err := os.OpenFile(outFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+        check(err)
+        defer f.Close()
+        if _, err := f.WriteString(string(payload)); err != nil {
+	        check(err)
+        }
     }
 
 }
