@@ -7,12 +7,12 @@ import (
 
 )
 var (
-
 	dhost string
 	exfilFileName string
 	device string
 	runTime int32
 	outFile string
+	dnsPort int
 )
 // exfilCmd represents the exfil command
 var exfilCmd = &cobra.Command{
@@ -40,7 +40,7 @@ var exfilDNSServer = &cobra.Command{
 	Short: "Run exfil DNS test as a server",
 	Long: `Run exfil DNS test as a server`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dns exfil server called")
+		runDNSServer(dnsPort)
 	},
 }
 
@@ -81,5 +81,8 @@ func init() {
 	exfilPingReceive.Flags().StringVarP(&device, "device", "i", "", "The Device to listen on")
 	exfilPingReceive.Flags().Int32VarP(&runTime, "runTime", "r", 1024, "How long to run the ping listener")
 	exfilPingReceive.Flags().StringVarP(&outFile, "outfile", "o", "out.text", "The destination filename")
+
+	//DNS Server Flags
+	exfilDNSServer.Flags().IntVarP(&dnsPort, "dnsPort", "p", 5353, "The Port to lisen on")
 
 }
