@@ -4,7 +4,7 @@ import (
 
 	"net"
 
-	"github.com/google/gopacket"
+	//"github.com/google/gopacket"
 	layers "github.com/google/gopacket/layers"
 	"github.com/Zeerg/paladin/log"
 )
@@ -35,9 +35,7 @@ func runDNSServer(dnsPort int) {
 		tmp := make([]byte, 1024)
 		_, addr, _ := u.ReadFrom(tmp)
 		clientAddr := addr
-		packet := gopacket.NewPacket(tmp, layers.LayerTypeDNS, gopacket.Default)
-		dnsPacket := packet.Layer(layers.LayerTypeDNS)
-		dnsLayer, _ := dnsPacket.(*layers.DNS)
-		decodeDNSQuery(u, clientAddr, dnsLayer)
+		log.Println(u)
+		log.Println(clientAddr)
 	}
 }
