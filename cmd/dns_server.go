@@ -4,25 +4,21 @@ import (
 
 	"net"
 
-	//"github.com/google/gopacket"
-	layers "github.com/google/gopacket/layers"
 	"github.com/Zeerg/paladin/log"
+	"golang.org/x/net/dns/dnsmessage"
+
 )
+
 var (
 
 	ip string
 	ok bool
 	dnsRequest string
+	m dnsmessage.Message
+	query dnsmessage.Question
 
 )
-func decodeDNSQuery(u *net.UDPConn, clientAddr net.Addr, request *layers.DNS) {
 
-	var dnsAnswer layers.DNSResourceRecord
-	dnsAnswer.Type = layers.DNSTypeA
-	dnsRequest = string(request.Questions[0].Name)
-	log.Println(dnsRequest)
-	
-}
 func runDNSServer(dnsPort int) {
 	addr := net.UDPAddr{
 		Port: dnsPort,
@@ -32,10 +28,13 @@ func runDNSServer(dnsPort int) {
 
 	// Wait to get request on that port
 	for {
-		tmp := make([]byte, 1024)
-		_, addr, _ := u.ReadFrom(tmp)
+		buf := make([]byte, 1024)
+		_, addr, _ := u.ReadFromUDP(buf)
 		clientAddr := addr
-		log.Println(u)
+		err = m.Unpack(buf)
+		check(err)
+		query = m.Questions[0]
+		log.Println(query)
 		log.Println(clientAddr)
 	}
 }

