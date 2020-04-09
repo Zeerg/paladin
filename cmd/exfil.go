@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 
 	"github.com/spf13/cobra"
 
@@ -13,6 +12,8 @@ var (
 	runTime int32
 	outFile string
 	dnsPort int
+	dnsHost string
+	remoteDNSPort string
 )
 // exfilCmd represents the exfil command
 var exfilCmd = &cobra.Command{
@@ -31,7 +32,7 @@ var exfilDNSClient = &cobra.Command{
 	Short: "Run exfil DNS test as a client",
 	Long: `Run exfil DNS test as a client`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dns exfil client called")
+		dnsClientExfil(exfilFileName, dnsHost, remoteDNSPort)
 	},
 }
 
@@ -84,5 +85,10 @@ func init() {
 
 	//DNS Server Flags
 	exfilDNSServer.Flags().IntVarP(&dnsPort, "dnsPort", "p", 5353, "The Port to lisen on")
+
+	//DNS Client Flags
+	exfilDNSClient.Flags().StringVarP(&dnsHost, "dnsHost", "n", "", "The Destination Host of the DNS Request")
+	exfilDNSClient.Flags().StringVarP(&remoteDNSPort, "remoteDNSPort", "o", "", "The Destination Port of the DNS Request")
+	exfilDNSClient.Flags().StringVarP(&exfilFileName, "file", "f", "", "The name of the file to send over DNS Exfil")
 
 }
