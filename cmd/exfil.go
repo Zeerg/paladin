@@ -8,7 +8,6 @@ import (
 var (
 	dhost string
 	exfilFileName string
-	device string
 	runTime int32
 	outFile string
 	dnsPort int
@@ -59,7 +58,7 @@ var exfilPingReceive = &cobra.Command{
 	Short: "Packet capture ping requests and reassemble files",
 	Long: `Packet capture ping requests and reassemble file`,
 	Run: func(cmd *cobra.Command, args []string) {
-		pingReassemble(outFile, device, runTime)
+		pingListen(outFile, ipListen, runTime)
 	},
 }
 
@@ -79,7 +78,7 @@ func init() {
 	exfilPing.Flags().StringVarP(&exfilFileName, "file", "f", "", "The name of the file to send over ping")
 
 	//Ping Reassemble flags
-	exfilPingReceive.Flags().StringVarP(&device, "device", "i", "", "The Device to listen on")
+	exfilPingReceive.Flags().StringVarP(&ipListen, "ip", "i", "0.0.0.0", "The ip to listen on")
 	exfilPingReceive.Flags().Int32VarP(&runTime, "runTime", "r", 1024, "How long to run the ping listener")
 	exfilPingReceive.Flags().StringVarP(&outFile, "outfile", "o", "out.text", "The destination filename")
 
