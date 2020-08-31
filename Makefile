@@ -15,6 +15,7 @@ help:
 	@echo 'Usage:'
 	@echo '    make build           Compile the project.'
 	@echo '    make build-fs        Build atomic red team static fs.'
+	@echo '    make build-all       Build all envs.'
 	@echo '    make get-deps        runs dep ensure, mostly used for ci.'
 	@echo '	   make test-release    Test release with goreleaser
 	@echo '    make clean           Clean the directory tree.'
@@ -30,6 +31,13 @@ build:
 	@echo "building ${BIN_NAME} ${VERSION}"
 	@echo "GOPATH=${GOPATH}"
 	go build -ldflags "-X github.com/Zeerg/paladin/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/Zeerg/paladin/version.BuildDate=${BUILD_DATE}" -o bin/${BIN_NAME}
+
+build-all:
+	@echo "building ${BIN_NAME} ${VERSION}"
+	@echo "GOPATH=${GOPATH}"
+	GOOS=linux GOARCH=amd64 go build -ldflags "-X github.com/Zeerg/paladin/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/Zeerg/paladin/version.BuildDate=${BUILD_DATE}" -o bin/linux/${BIN_NAME}
+	GOOS=darwin GOARCH=amd64 go build -ldflags "-X github.com/Zeerg/paladin/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/Zeerg/paladin/version.BuildDate=${BUILD_DATE}" -o bin/darwin/${BIN_NAME}
+	GOOS=windows GOARCH=amd64 go build -ldflags "-X github.com/Zeerg/paladin/version.GitCommit=${GIT_COMMIT}${GIT_DIRTY} -X github.com/Zeerg/paladin/version.BuildDate=${BUILD_DATE}" -o bin/windows/${BIN_NAME}
 
 build-fs:
 	@echo "building Atomic Red Team Static FS"

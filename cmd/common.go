@@ -3,9 +3,9 @@ package cmd
 import (
     "io/ioutil"
     "encoding/hex"
-    
+
     "github.com/Zeerg/paladin/log"
-    
+
 )
 
 func check(e error) {
@@ -22,4 +22,11 @@ func hexEncode(fileName string) []byte {
 	dstEnc := make([]byte, hex.EncodedLen(len(dat)))
 	hex.Encode(dstEnc, dat)
 	return dstEnc
+}
+func hexDecode(bytesObject []byte) string {
+    dst := make([]byte, hex.DecodedLen(len(bytesObject)))
+    n, err := hex.Decode(dst, bytesObject)
+    check(err)
+    encodedMessage := string(dst[:n])
+    return encodedMessage
 }
