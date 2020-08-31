@@ -8,22 +8,21 @@ scoop:
   name: paladin
   commit_author:
     name: goreleaserbot
-    email: goreleaser@carlosbecker.com
+    email: test@test.com
 builds:
 - id: paladin
   goos:
+  - darwin
   - linux
+  - windows
   goarch:
   - amd64
   goarm:
   - "6"
-  targets:
-  - linux_amd64
   dir: .
   main: .
   ldflags:
   - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
-    -X main.builtBy=goreleaser
   binary: paladin
   lang: go
 archives:

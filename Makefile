@@ -51,5 +51,5 @@ test:
 	go test ./...
 
 test-release:
-	export VERSION= ${VERSION}
-	~/go/bin/goreleaser --snapshot --skip-publish --rm-dist
+	export VERSION=${VERSION}
+	/usr/local/bin/goreleaser --snapshot --skip-publish --rm-dist
