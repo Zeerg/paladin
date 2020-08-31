@@ -1,48 +1,35 @@
 package cmd
 
 import (
-	"fmt"
-	"time"
-    "encoding/hex"
-    "os"
-
-    "github.com/google/gopacket"
-	"github.com/google/gopacket/pcap"
-
+    "golang.org/x/net/icmp"
+    "reflect"
+    "log"
+    "bytes"
 )
+
 var (
-    captureDevice       string = "eth0"
+    ipListen       string = "0.0.0.0"
     captureTime int32 = 1024
     promiscuous  bool   = false
     err          error
-    timeout      time.Duration = 1 * time.Second
-	handle       *pcap.Handle
-	filter 		 string = "icmp"
 )
 
-// pingReassemble takes the payload and reassembles it. 
-func pingReassemble(outFile, captureDevice string, captureTime int32) {
-
-    // Open device
-    handle, err = pcap.OpenLive(captureDevice, captureTime, promiscuous, timeout)
+// pingListen waits for the ping at the address
+func pingListen(outFile, ipListen string, captureTime int32) {
+    // Listen for ping
+    pkt, err := icmp.ListenPacket("ip4:1", ipListen)
     check(err)
-	defer handle.Close()
-	
-    // Set filter
-    err = handle.SetBPFFilter(filter)
-    check(err)
-    packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
-    for packet := range packetSource.Packets() {
-		appLayer := packet.ApplicationLayer();
-		payload, err := hex.DecodeString(string(appLayer.Payload()))
-		check(err)
-        fmt.Println(string(payload))
-        f, err := os.OpenFile(outFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+    // Wait to get request
+	for {
+		buf := make([]byte, 1024)
+		_, addr, _ := pkt.ReadFrom(buf)
+		clientAddr := addr
+		m, err := icmp.ParseMessage(1,buf)
         check(err)
-        defer f.Close()
-        if _, err := f.WriteString(string(payload)); err != nil {
-	        check(err)
-        }
-    }
-
+        datBody := reflect.ValueOf(m.Body).Elem().FieldByName("Data").Bytes()
+        b := bytes.Trim(datBody, "\x00")
+        decodedText := hexDecode(b)
+        log.Println(decodedText)
+        log.Println(clientAddr)
+	}
 }

